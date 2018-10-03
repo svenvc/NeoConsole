@@ -1,3 +1,0 @@
-public
-execute
-	self subclassResponsibility 

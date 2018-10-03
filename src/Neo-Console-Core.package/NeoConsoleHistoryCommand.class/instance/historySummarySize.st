@@ -1,3 +1,0 @@
-accessing
-historySummarySize
-	^ 10

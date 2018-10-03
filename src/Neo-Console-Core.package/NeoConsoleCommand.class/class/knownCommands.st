@@ -1,3 +1,0 @@
-accessing
-knownCommands
-	^ self subclasses

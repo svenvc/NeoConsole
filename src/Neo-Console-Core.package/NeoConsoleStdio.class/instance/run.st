@@ -1,3 +1,0 @@
-public
-run
-	self executeRequestResponseLoop 
