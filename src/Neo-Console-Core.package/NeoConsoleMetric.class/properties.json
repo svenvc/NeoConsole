@@ -1,0 +1,17 @@
+{
+	"commentStamp" : "SvenVanCaekenberghe 2/24/2015 17:16",
+	"super" : "Object",
+	"category" : "Neo-Console-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"KnownMetrics"
+	],
+	"instvars" : [
+		"name",
+		"description",
+		"reader"
+	],
+	"name" : "NeoConsoleMetric",
+	"type" : "normal"
+}

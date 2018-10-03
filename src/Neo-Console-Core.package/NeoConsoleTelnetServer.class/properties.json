@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "SvenVanCaekenberghe 4/11/2018 14:31",
+	"super" : "Object",
+	"category" : "Neo-Console-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"port",
+		"process",
+		"serverSocket"
+	],
+	"name" : "NeoConsoleTelnetServer",
+	"type" : "normal"
+}

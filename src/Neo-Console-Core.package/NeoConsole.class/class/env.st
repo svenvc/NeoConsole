@@ -1,0 +1,3 @@
+accessing
+env
+	^ NeoConsoleEnvironment current
