@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "SvenVanCaekenberghe 9/7/2015 16:52",
+	"super" : "Object",
+	"category" : "Neo-Console-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"UniqueInstance"
+	],
+	"instvars" : [
+		"environment"
+	],
+	"name" : "NeoConsoleEnvironment",
+	"type" : "normal"
+}

@@ -1,0 +1,3 @@
+accessing
+historySummarySize
+	^ 10

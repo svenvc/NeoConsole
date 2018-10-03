@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "SvenVanCaekenberghe 6/18/2015 13:05",
+	"super" : "NeoConsoleCommand",
+	"category" : "Neo-Console-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "NeoConsoleHistoryCommand",
+	"type" : "normal"
+}
