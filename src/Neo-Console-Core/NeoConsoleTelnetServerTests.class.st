@@ -10,6 +10,11 @@ Class {
 	#category : #'Neo-Console-Core'
 }
 
+{ #category : #accessing }
+NeoConsoleTelnetServerTests >> localhost [
+	^ #[127 0 0 1] asSocketAddress
+]
+
 { #category : #running }
 NeoConsoleTelnetServerTests >> setUp [ 
 	super setUp.
@@ -25,7 +30,7 @@ NeoConsoleTelnetServerTests >> tearDown [
 { #category : #testing }
 NeoConsoleTelnetServerTests >> testConnect [
 	| connection in out line |
-	connection := ZdcSocketStream openConnectionToHost: NetNameResolver localHostAddress port: server port timeout: 10.
+	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	line := in nextLine.
@@ -41,7 +46,7 @@ NeoConsoleTelnetServerTests >> testConnect [
 { #category : #testing }
 NeoConsoleTelnetServerTests >> testEvalSum [
 	| connection in out line x y |
-	connection := ZdcSocketStream openConnectionToHost: NetNameResolver localHostAddress port: server port timeout: 10.
+	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	line := in nextLine.
@@ -60,7 +65,7 @@ NeoConsoleTelnetServerTests >> testEvalSum [
 { #category : #testing }
 NeoConsoleTelnetServerTests >> testGetSystemTimestamp [
 	| connection in out line |
-	connection := ZdcSocketStream openConnectionToHost: NetNameResolver localHostAddress port: server port timeout: 10.
+	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	in nextLine.
@@ -75,7 +80,7 @@ NeoConsoleTelnetServerTests >> testGetSystemTimestamp [
 { #category : #testing }
 NeoConsoleTelnetServerTests >> testSumMultiline [
 	| connection in out line x y |
-	connection := ZdcSocketStream openConnectionToHost: NetNameResolver localHostAddress port: server port timeout: 10.
+	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	line := in nextLine.
