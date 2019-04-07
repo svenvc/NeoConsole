@@ -71,3 +71,20 @@ pharo> quit
 Bye!
 Connection closed by foreign host.
 ````
+
+## Installation
+
+You can load NeoConsole using Metacello
+
+```Smalltalk
+Metacello new
+  repository: 'github://svenvc/NeoConsole/src';
+  baseline: 'NeoConsole';
+  load.
+```
+
+You can use the following dependency from your own Metacello configuration or baseline
+
+```Smalltalk
+spec baseline: 'NeoConsole' with: [ spec repository: 'github://svenvc/NeoConsole/src' ].
+```
