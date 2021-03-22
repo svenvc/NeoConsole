@@ -1,7 +1,7 @@
 "
 NeoConsoleStdio offers a command line interface to a Pharo image over Stdio.
 
-  $ ./pharo Pharo.image NeoConsoleStdio run
+  $ ./pharo Pharo.image eval NeoConsoleStdio run
 
 End with quit or an empty line.
 "
@@ -11,6 +11,32 @@ Class {
 	#category : #'Neo-Console-Core'
 }
 
+{ #category : #utilities }
+NeoConsoleStdio class >> nextLineFrom: stdin [
+	"Read a CR, LF or CRLF terminated line from stdin, 
+	returning the contents of the line without the EOL. 
+	Return nil when stdin is #atEnd."
+	
+	stdin atEnd ifTrue: [ ^ nil ].
+	^ (ByteArray streamContents: [ :out | | eol |
+		eol := false.
+		[ eol ] whileFalse: [ 
+			stdin atEnd
+				ifTrue: [ eol := true ]
+				ifFalse: [
+					stdin next ifNotNil: [ :byte |
+						byte = 10 "CR"
+							ifTrue: [ eol := true ]
+							ifFalse: [ 
+								byte = 13 "LF"
+									ifTrue: [ eol := true. stdin peek = 13 "CR" ifTrue: [ stdin next ] ]
+									ifFalse: [ out nextPut: byte ] ] ] ] ] ]) utf8Decoded.
+	
+	"Stdio stdin next returns nil when there is no input (yet), 
+	while atEnd is still not true, we do a busy wait."
+
+]
+
 { #category : #public }
 NeoConsoleStdio class >> run [
 	^ self new run
@@ -19,7 +45,7 @@ NeoConsoleStdio class >> run [
 { #category : #protocol }
 NeoConsoleStdio >> executeRequestResponseLoop [
 	| in out command executeResult |
-	in := ZnCharacterReadStream on: Stdio stdin.
+	in := Stdio stdin.
 	out := ZnCharacterWriteStream on: Stdio stdout.
 	self writeOutput: ('Neo Console ', SystemVersion current asString) to: out.
 	[
@@ -33,10 +59,9 @@ NeoConsoleStdio >> executeRequestResponseLoop [
 ]
 
 { #category : #protocol }
-NeoConsoleStdio >> readInputFrom: stream [
-	| input lineReader line commandClass |
-	lineReader := ZnFastLineReader on: stream.
-	line := [ lineReader nextLine trimBoth ] on: ConnectionClosed, ConnectionTimedOut do: [ nil ].
+NeoConsoleStdio >> readInputFrom: stdin [
+	| input line commandClass |
+	line := (self class nextLineFrom: stdin) trimBoth.
 	line isEmptyOrNil ifTrue: [ ^ NeoConsoleQuitCommand new ].
 	commandClass := NeoConsoleCommand forLine: line.
 	commandClass isSingleLine
@@ -44,7 +69,7 @@ NeoConsoleStdio >> readInputFrom: stream [
 	input := String new writeStream.
 	input nextPutAll: line; cr.
 	[ 
-		line := [ lineReader nextLine trimBoth ] on: ConnectionClosed, ConnectionTimedOut do: [ '' ].
+		line := (self class nextLineFrom: stdin) trimBoth.
 		input nextPutAll: line; cr.
 		line isEmpty ] whileFalse.
 	^ commandClass new on: input contents; yourself
