@@ -58,6 +58,11 @@ NeoConsoleStdio >> executeRequestResponseLoop [
 		executeResult notNil ] whileTrue
 ]
 
+{ #category : #printing }
+NeoConsoleStdio >> printOn: stream [
+	stream nextPutAll: self class name
+]
+
 { #category : #protocol }
 NeoConsoleStdio >> readInputFrom: stdin [
 	| input line commandClass |

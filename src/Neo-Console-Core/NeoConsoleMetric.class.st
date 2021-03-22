@@ -125,12 +125,12 @@ NeoConsoleMetric class >> matching: pattern [
 
 { #category : #private }
 NeoConsoleMetric class >> memoryFree [
-	^ self memoryTotal - Smalltalk vm youngSpaceEnd
+	^ Smalltalk vm freeOldSpaceSize + Smalltalk vm edenSpaceSize - Smalltalk vm youngSpaceSize
 ]
 
 { #category : #private }
 NeoConsoleMetric class >> memoryTotal [
-	^ Smalltalk vm memoryEnd
+	^ Smalltalk vm memorySize
 ]
 
 { #category : #accessing }
