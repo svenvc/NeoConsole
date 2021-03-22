@@ -20,7 +20,7 @@ NeoConsoleStdio class >> run [
 NeoConsoleStdio >> executeRequestResponseLoop [
 	| in out command executeResult |
 	in := ZnCharacterReadStream on: Stdio stdin.
-	out := ZnChunkedWriteStream on: Stdio stdout.
+	out := ZnCharacterWriteStream on: Stdio stdout.
 	self writeOutput: ('Neo Console ', SystemVersion current asString) to: out.
 	[
 		out nextPutAll: 'pharo> ' "; flush".
