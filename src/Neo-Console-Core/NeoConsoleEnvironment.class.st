@@ -106,3 +106,11 @@ NeoConsoleEnvironment >> loadOSEnvironment [
 		keysAndValuesDo: [ :key :value | 
 			self at: key put: value ]
 ]
+
+{ #category : #accessing }
+NeoConsoleEnvironment >> removeKey: key [
+	"Remove any value I have stored under key.
+	Do not fail if key is not present."
+	
+	environment removeKey: key ifAbsent: [ ]
+]

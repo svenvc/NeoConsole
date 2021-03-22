@@ -5,7 +5,7 @@ I hold the history of all evaluated commands.
 
 I hold the last 3 results.
 
-I offer quick access to NeoConsoleEnvironment current.
+I offer quick access to NeoConsoleEnvironment current and NeoConsoleStdio run.
 "
 Class {
 	#name : #NeoConsole,
@@ -14,7 +14,7 @@ Class {
 		'History',
 		'Results'
 	],
-	#category : 'Neo-Console-Core'
+	#category : #'Neo-Console-Core'
 }
 
 { #category : #accessing }
@@ -48,6 +48,11 @@ NeoConsole class >> lastResult: anObject [
 	results at: 2 put: (results at: 3).
 	results at: 3 put: anObject.
 	^ results
+]
+
+{ #category : #accessing }
+NeoConsole class >> repl [
+	^ NeoConsoleStdio run
 ]
 
 { #category : #accessing }

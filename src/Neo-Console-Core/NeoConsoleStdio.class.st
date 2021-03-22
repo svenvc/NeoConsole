@@ -4,13 +4,11 @@ NeoConsoleStdio offers a command line interface to a Pharo image over Stdio.
   $ ./pharo Pharo.image NeoConsoleStdio run
 
 End with quit or an empty line.
-
-Security warning: this service opens up your image for access to those with access to your local network (i.e. those logged in to your machine), without any further authenication, allowing them to do absolutely anything. Think and make sure that you know what you are doing.
 "
 Class {
 	#name : #NeoConsoleStdio,
 	#superclass : #Object,
-	#category : 'Neo-Console-Core'
+	#category : #'Neo-Console-Core'
 }
 
 { #category : #public }
@@ -21,9 +19,9 @@ NeoConsoleStdio class >> run [
 { #category : #protocol }
 NeoConsoleStdio >> executeRequestResponseLoop [
 	| in out command executeResult |
-	in := ZnCharacterReadStream on: FileStream stdin binary.
-	out := ZnCharacterWriteStream on: Stdio stdout.
-	self writeLine: ('Neo Console ', SystemVersion current asString) to: out.
+	in := ZnCharacterReadStream on: Stdio stdin.
+	out := ZnChunkedWriteStream on: Stdio stdout.
+	self writeOutput: ('Neo Console ', SystemVersion current asString) to: out.
 	[
 		out nextPutAll: 'pharo> ' "; flush".
 		command := (self readInputFrom: in).
@@ -31,7 +29,7 @@ NeoConsoleStdio >> executeRequestResponseLoop [
 			on: Error 
 			do: [ :exception | command printString, ' failed with ', exception printString ].
 		self writeOutput: command result to: out.
-		executeResult notNil	] whileTrue
+		executeResult notNil ] whileTrue
 ]
 
 { #category : #protocol }
@@ -56,11 +54,6 @@ NeoConsoleStdio >> readInputFrom: stream [
 NeoConsoleStdio >> run [
 	self executeRequestResponseLoop 
 
-]
-
-{ #category : #protocol }
-NeoConsoleStdio >> writeLine: string to: stream [
-	stream nextPutAll: string; lf "; flush"
 ]
 
 { #category : #protocol }

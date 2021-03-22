@@ -38,7 +38,7 @@ NeoConsoleTelnetServer >> executeRequestResponseLoopOn: stream [
 	| in out command executeResult |
 	in := ZnCharacterReadStream on: stream.
 	out := ZnCharacterWriteStream on: stream.
-	self writeLine: ('Neo Console ', SystemVersion current asString) to: out.
+	self writeOutput: ('Neo Console ', SystemVersion current asString) to: out.
 	[
 		stream nextPutAll: 'pharo> '; flush.
 		command := (self readInputFrom: in).
@@ -46,7 +46,7 @@ NeoConsoleTelnetServer >> executeRequestResponseLoopOn: stream [
 			on: Error 
 			do: [ :exception | command printString, ' failed with ', exception printString ].
 		self writeOutput: command result to: out.
-		executeResult notNil	] whileTrue
+		executeResult notNil ] whileTrue
 ]
 
 { #category : #private }
@@ -183,11 +183,6 @@ NeoConsoleTelnetServer >> timeout [
 { #category : #accessing }
 NeoConsoleTelnetServer >> workerProcessName [
 	^ self serverProcessName, ' Connection Handler'
-]
-
-{ #category : #protocol }
-NeoConsoleTelnetServer >> writeLine: string to: stream [
-	stream nextPutAll: string; lf; flush
 ]
 
 { #category : #protocol }
