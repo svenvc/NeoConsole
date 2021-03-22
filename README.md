@@ -2,7 +2,7 @@
 
 NeoConsole offers a command line (REPL) interface to a Pharo image.
 
-[![Build Status](https://travis-ci.org/svenvc/NeoConsole.svg?branch=master)](https://travis-ci.org/svenvc/NeoConsole)
+[![CI](https://github.com/svenvc/NeoConsole/actions/workflows/CI.yml/badge.svg)](https://github.com/svenvc/NeoConsole/actions/workflows/CI.yml)
 
 In your headless Pharo server image, start a REPL process, locally bound, like this:
 
@@ -71,3 +71,20 @@ pharo> quit
 Bye!
 Connection closed by foreign host.
 ````
+
+## Installation
+
+You can load NeoConsole using Metacello
+
+```Smalltalk
+Metacello new
+  repository: 'github://svenvc/NeoConsole/src';
+  baseline: 'NeoConsole';
+  load.
+```
+
+You can use the following dependency from your own Metacello configuration or baseline
+
+```Smalltalk
+spec baseline: 'NeoConsole' with: [ spec repository: 'github://svenvc/NeoConsole/src' ].
+```

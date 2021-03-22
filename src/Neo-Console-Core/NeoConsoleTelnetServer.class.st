@@ -99,7 +99,7 @@ NeoConsoleTelnetServer >> port: integer [
 NeoConsoleTelnetServer >> printOn: stream [
 	super printOn: stream.
 	stream << $(.
-	self isRunning ifTrue: [ stream << #running; space; << self port ].
+	self isRunning ifTrue: [ stream << #running; space; print: self port ].
 	stream << $)
 ]
 
