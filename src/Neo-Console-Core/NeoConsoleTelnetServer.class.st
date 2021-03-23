@@ -21,8 +21,37 @@ Class {
 		'process',
 		'serverSocket'
 	],
-	#category : 'Neo-Console-Core'
+	#classVars : [
+		'ManagedServers'
+	],
+	#category : #'Neo-Console-Core'
 }
+
+{ #category : #'class initialization' }
+NeoConsoleTelnetServer class >> initialize [
+	SessionManager default registerNetworkClassNamed: self name
+]
+
+{ #category : #accessing }
+NeoConsoleTelnetServer class >> managedServers [
+	^ ManagedServers ifNil: [ ManagedServers := IdentitySet new ]
+]
+
+{ #category : #'system startup' }
+NeoConsoleTelnetServer class >> register: server [
+	"Arrange for server to be sent start/stop on system startUp/shutDown"
+	
+	self managedServers add: server
+]
+
+{ #category : #'system startup' }
+NeoConsoleTelnetServer class >> shutDown: quiting [
+	"Our system shutDown hook: stop all servers we manage"
+	
+	quiting
+		ifTrue: [
+			self managedServers do: [ :each | each stop: false ] ]
+]
 
 { #category : #public }
 NeoConsoleTelnetServer class >> startOn: port [
@@ -31,6 +60,24 @@ NeoConsoleTelnetServer class >> startOn: port [
 	^ self new
 		port: port;
 		start
+]
+
+{ #category : #'system startup' }
+NeoConsoleTelnetServer class >> startUp: resuming [
+	"Our system startUp hook: start all servers we manage.
+	We do this using deferred startup actions to allow normal error handling."
+
+	resuming
+		ifTrue: [
+			SessionManager default currentSession addDeferredStartupAction: [ 
+				self managedServers do: [ :each | each start ] ] ]
+]
+
+{ #category : #'system startup' }
+NeoConsoleTelnetServer class >> unregister: server [
+	"No longer send server start/stop on system startUp/shutDown"
+	
+	self managedServers remove: server ifAbsent: [ ]
 ]
 
 { #category : #protocol }
@@ -162,13 +209,22 @@ NeoConsoleTelnetServer >> socketStreamOn: socket [
 { #category : #public }
 NeoConsoleTelnetServer >> start [
 	self stop.
-	process := [ [ self listenLoop ] repeat ] 
-					forkAt: Processor highIOPriority 
-					named: self serverProcessName
+	self class register: self.
+	process := [ 
+		[ self listenLoop ] repeat 
+	] 
+		forkAt: Processor highIOPriority 
+		named: self serverProcessName
 ]
 
 { #category : #public }
 NeoConsoleTelnetServer >> stop [
+	self stop: true
+]
+
+{ #category : #public }
+NeoConsoleTelnetServer >> stop: unregister [
+	unregister ifTrue: [ self class unregister: self ].
 	self isRunning ifFalse: [ ^ self ].
 	process terminate. 
 	process := nil.

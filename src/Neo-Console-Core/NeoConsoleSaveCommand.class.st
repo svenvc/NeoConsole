@@ -1,7 +1,7 @@
 "
 Save the image
 
-save - save the image and quit
+save - save the image and quit the REPL
 "
 Class {
 	#name : #NeoConsoleSaveCommand,
