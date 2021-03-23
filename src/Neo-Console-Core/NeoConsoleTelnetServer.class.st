@@ -187,6 +187,8 @@ NeoConsoleTelnetServer >> workerProcessName [
 
 { #category : #protocol }
 NeoConsoleTelnetServer >> writeOutput: string to: stream [
+	string isEmptyOrNil
+		ifTrue: [ ^ self ].
 	string lines
 		do: [ :each | stream nextPutAll: each ]
 		separatedBy: [ stream lf ].

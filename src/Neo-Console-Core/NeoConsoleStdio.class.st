@@ -88,8 +88,10 @@ NeoConsoleStdio >> run [
 
 { #category : #protocol }
 NeoConsoleStdio >> writeOutput: string to: stream [
+	string isEmptyOrNil
+		ifTrue: [ ^ self ].
 	string lines
 		do: [ :each | stream nextPutAll: each ]
 		separatedBy: [ stream lf ].
-	stream lf "; flush"
+	stream lf	"; flush"
 ]

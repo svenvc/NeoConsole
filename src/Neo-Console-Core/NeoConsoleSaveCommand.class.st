@@ -16,6 +16,7 @@ NeoConsoleSaveCommand class >> prefix [
 
 { #category : #public }
 NeoConsoleSaveCommand >> execute [
-	Smalltalk snapshot: true andQuit: false.
-	result := 'Image saved.'.
+	| resuming |
+	resuming := Smalltalk snapshot: true andQuit: false.
+	resuming ifFalse: [ result := 'Image saved.' ]
 ]
