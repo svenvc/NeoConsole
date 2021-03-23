@@ -52,8 +52,9 @@ NeoConsoleMetricDelegate >> okResponse: text [
 
 { #category : #private }
 NeoConsoleMetricDelegate >> responseForKnowMetrics [
-	| text |
-	text := String cr join: (NeoConsoleMetric knownMetrics collect: [ :each |
+	| metrics text |
+	metrics := NeoConsoleMetric knownMetrics sorted: #name ascending.
+	text := String cr join: (metrics collect: [ :each |
 		'/metrics/' , each name, ' - ', each description ]).
 	^ self okResponse: text
 ]

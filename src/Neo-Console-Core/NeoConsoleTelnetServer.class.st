@@ -7,7 +7,7 @@ Inspect:
 
 In a terminal do:
 
-  $ telnet localhost 4999
+  $  telnet localhost 4999
 
 End with quit or an empty line.
 
