@@ -1,7 +1,7 @@
 "
 Save the image
 
-save - save the image (do not quit)
+save - save the image and quit
 "
 Class {
 	#name : #NeoConsoleSaveCommand,
@@ -18,5 +18,7 @@ NeoConsoleSaveCommand class >> prefix [
 NeoConsoleSaveCommand >> execute [
 	| resuming |
 	resuming := Smalltalk snapshot: true andQuit: false.
-	resuming ifFalse: [ result := 'Image saved.' ]
+	resuming
+		ifTrue: [ ^ nil "will quit the loop" ] 
+		ifFalse: [ result := 'Image saved.' ]
 ]
