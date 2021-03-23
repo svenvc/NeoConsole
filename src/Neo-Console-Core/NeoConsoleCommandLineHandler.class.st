@@ -61,11 +61,13 @@ NeoConsoleCommandLineHandler >> get [
 		ifTrue: [
 			self stdout nextPutAll: 'get [metric] - list of known metrics:'; lf.
 			(NeoConsoleMetric knownMetrics sorted: #name ascending) do: [ :each |
-				self stdout nextPutAll: each name; nextPutAll: ' - '; nextPutAll: each description; lf ] ]
+				self stdout nextPutAll: each name; nextPutAll: ' - '; nextPutAll: each description; lf ].
+			self exitSuccess ]
 		ifFalse: [ 
 			[ | metric |
 				metric := NeoConsoleMetric named: self arguments second.
-				self stdout nextPutAll: metric value asString; lf ]
+				self stdout nextPutAll: metric value asString; lf.
+				self exitSuccess ]
 					on: NotFound 
 					do: [ self exitFailure: 'unknown metric: ' , self arguments second ] ]
 ]
