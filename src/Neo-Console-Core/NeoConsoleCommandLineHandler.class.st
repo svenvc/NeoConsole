@@ -61,7 +61,7 @@ NeoConsoleCommandLineHandler >> get [
 		ifTrue: [
 			self stdout nextPutAll: 'get [metric] - list of known metrics:'; lf.
 			(NeoConsoleMetric knownMetrics sorted: #name ascending) do: [ :each |
-				self stdout nextPutAll: each name; nextPutAll: ' - '; nextPutAll: each description; lf ].
+				self stdout space; space; nextPutAll: each name; nextPutAll: ' - '; nextPutAll: each description; lf ].
 			self exitSuccess ]
 		ifFalse: [ 
 			[ | metric |
@@ -84,5 +84,6 @@ NeoConsoleCommandLineHandler >> server [
 		nextPutAll: 'Started';
 		space;
 		nextPutAll: NeoConsole startServer printString;
-		lf
+		lf.
+	"we do not exit but keep on running the image"
 ]
