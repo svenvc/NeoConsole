@@ -34,7 +34,7 @@ NeoConsoleTelnetServerTests >> testConnect [
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	line := in nextLine.
-	self assert: (line includesSubstring: 'Neo Console').
+	self assert: (line includesSubstring: 'NeoConsole').
 	line := in next: 7.
 	self assert: line equals: 'pharo> '.
 	out nextPutAll: 'quit'; lf; flush.
@@ -50,7 +50,7 @@ NeoConsoleTelnetServerTests >> testEvalSum [
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	line := in nextLine.
-	self assert: (line includesSubstring: 'Neo Console').
+	self assert: (line includesSubstring: 'NeoConsole').
 	line := in next: 7.
 	self assert: line equals: 'pharo> '.
 	x := 999 atRandom.
@@ -84,7 +84,7 @@ NeoConsoleTelnetServerTests >> testSumMultiline [
 	in := ZnCharacterReadStream on: connection.
 	out := ZnCharacterWriteStream on: connection.
 	line := in nextLine.
-	self assert: (line includesSubstring: 'Neo Console').
+	self assert: (line includesSubstring: 'NeoConsole').
 	line := in next: 7.
 	self assert: line equals: 'pharo> '.
 	x := 999 atRandom.
