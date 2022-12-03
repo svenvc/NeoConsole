@@ -123,6 +123,55 @@ Connection closed by foreign host.
 ````
 
 
+## HTTP Metrics
+
+The class NeoConsoleMetricsDelegate implements the handling of a resource space to access all known metrics.
+You can start a safe (locally bound) & dedicated HTTP server as follows:
+
+````
+NeoConsoleMetricDelegate startOn: 1707
+````
+
+Which you can then access (locally on the same machine) with any HTTP client:
+
+````
+$ curl http://localhost:1707/metrics
+/metrics/memory.free - Free memory
+/metrics/memory.gc - Garbage collect, return free memory
+/metrics/memory.total - Total allocated memory
+/metrics/process.count - Current process count
+/metrics/process.list - Current list of processes
+/metrics/system.date - Current date
+/metrics/system.mcversions - Monticello packages version info
+/metrics/system.status - Simple system status
+/metrics/system.time - Current time
+/metrics/system.timestamp - Current timestamp
+/metrics/system.uptime - Image uptime human readeable
+/metrics/system.uptimeseconds - Image uptime seconds
+/metrics/system.version - Image version info
+
+$ curl http://localhost:1707/metrics/system.version
+Pharo-11.0.0+build.323.sha.e6c76cf1e64aa02779926645ff2d31101aee6273 (64 Bit)
+
+$ curl http://localhost:1707/metrics/system.status
+Status OK - Clock 2022-12-03T16:53:32.669806+01:00 - Allocated 219,152,384 bytes - 17.72 % free.
+````
+
+
+## Metrics
+
+Metrics are implemented using the class NeoConsoleMetric which also keeps a list of all known/defined metrics.
+This is how you would define a new metric:
+
+````
+NeoConsoleMetric addNamed: 'test.random' description: 'A random test' reader: [ 1e9 atRandom asString ].
+````
+
+The URI to access your new metric would then be /metrics/test.random
+
+The reader block is evaluated each time the value of the metric is needed.
+
+
 ## Installation
 
 You can load NeoConsole using Metacello
