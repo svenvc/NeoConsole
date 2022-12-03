@@ -125,7 +125,7 @@ Connection closed by foreign host.
 
 ## HTTP Metrics
 
-The class NeoConsoleMetricsDelegate implements the handling of a resource space to access all known metrics.
+The class NeoConsoleMetricDelegate implements the handling of a resource space to access all known metrics.
 You can start a safe (locally bound) & dedicated HTTP server as follows:
 
 ````
