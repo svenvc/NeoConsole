@@ -24,13 +24,15 @@ NeoConsoleStdio class >> nextLineFrom: stdin [
 			stdin atEnd
 				ifTrue: [ eol := true ]
 				ifFalse: [
-					stdin next ifNotNil: [ :byte |
-						byte = 10 "CR"
-							ifTrue: [ eol := true ]
-							ifFalse: [ 
-								byte = 13 "LF"
-									ifTrue: [ eol := true. stdin peek = 13 "CR" ifTrue: [ stdin next ] ]
-									ifFalse: [ out nextPut: byte ] ] ] ] ] ]) utf8Decoded.
+					stdin next
+						ifNil: [ 100 milliSeconds wait ] 
+						ifNotNil: [ :byte |
+							byte = 10 "CR"
+								ifTrue: [ eol := true ]
+								ifFalse: [ 
+									byte = 13 "LF"
+										ifTrue: [ eol := true. stdin peek = 13 "CR" ifTrue: [ stdin next ] ]
+										ifFalse: [ out nextPut: byte ] ] ] ] ] ]) utf8Decoded.
 	
 	"Stdio stdin next returns nil when there is no input (yet), 
 	while atEnd is still not true, we do a busy wait."
