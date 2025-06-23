@@ -5,15 +5,16 @@ I am NeoConsoleTranscript, a NonInteractiveTranscript that writes to a dated fil
 
 "
 Class {
-	#name : #NeoConsoleTranscript,
-	#superclass : #NonInteractiveTranscript,
+	#name : 'NeoConsoleTranscript',
+	#superclass : 'NonInteractiveTranscript',
 	#instVars : [
 		'date'
 	],
-	#category : 'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #constants }
+{ #category : 'constants' }
 NeoConsoleTranscript class >> defaultLogFileName [
 	"The default file name that will be used to write to.
 	This needs to have a slot where the date will come."
@@ -21,7 +22,7 @@ NeoConsoleTranscript class >> defaultLogFileName [
 	^ 'PharoTranscript-{1}.log'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTranscript >> fileNameWithDate [
 	| newName |
 	newName := self fileName format: { date yyyymmdd }.
@@ -31,13 +32,13 @@ NeoConsoleTranscript >> fileNameWithDate [
 	^ newName
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleTranscript >> initialize [
 	super initialize.
 	date := Date today
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleTranscript >> initializeStream [
 	"Open the file stream that I write to or connect to #stdout/#stderr.
 	I will use the platform line end convention.
@@ -55,7 +56,7 @@ NeoConsoleTranscript >> initializeStream [
 	^ stream := ZnCharacterWriteStream on: binaryStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTranscript >> stream [ 
 	"Overwritten to check if the date changed on each access"
 	

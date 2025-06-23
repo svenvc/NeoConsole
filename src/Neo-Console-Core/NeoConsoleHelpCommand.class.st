@@ -7,22 +7,23 @@ help - list all commands
 help <command> - print help about <command>
 "
 Class {
-	#name : #NeoConsoleHelpCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleHelpCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleHelpCommand class >> handlesLine: line [
 	^ line first = $? or: [ super handlesLine: line ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleHelpCommand class >> prefix [
 	^ 'help'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleHelpCommand >> execute [
 	self hasArguments 
 		ifTrue: [ 
@@ -41,7 +42,7 @@ NeoConsoleHelpCommand >> execute [
 					separatedBy: [ out cr ] ] ]
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleHelpCommand >> on: input [
 	super on: input.
 	arguments := self argument findTokens: Character separators.

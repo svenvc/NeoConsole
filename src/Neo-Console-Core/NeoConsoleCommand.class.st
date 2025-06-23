@@ -4,21 +4,22 @@ I am NeoConsoleCommand. I describe a command that can be executed by the NeoCons
 The class comments of my subclasses are used as help texts in the command line interface.
 "
 Class {
-	#name : #NeoConsoleCommand,
-	#superclass : #Object,
+	#name : 'NeoConsoleCommand',
+	#superclass : 'Object',
 	#instVars : [
 		'arguments',
 		'result'
 	],
-	#category : 'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand class >> defaultCommand [
 	^ NeoConsoleEvalCommand 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand class >> forLine: line [
 	| commandClass |
 	commandClass := self knownCommands 
@@ -27,12 +28,12 @@ NeoConsoleCommand class >> forLine: line [
 	^ commandClass
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleCommand class >> handlesLine: line [
 	^ line beginsWith: self prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand class >> helpText [
 	^ String streamContents: [ :out |
 			out << self name; cr.
@@ -40,59 +41,59 @@ NeoConsoleCommand class >> helpText [
 				out space; space; << each; cr ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleCommand class >> isMultiLine [
 	^ self isSingleLine not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleCommand class >> isSingleLine [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand class >> knownCommands [
 	^ self subclasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand class >> prefix [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand >> argument [
 	^ arguments first
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand >> arguments [
 	^ arguments 
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleCommand >> execute [
 	self subclassResponsibility 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleCommand >> hasArguments [
 	^ arguments notNil and: [ arguments notEmpty ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleCommand >> logException: exception on: out [
 	out print: exception; cr.
 	exception signalerContext printDetails: out.
 	exception signalerContext sender debugStack: 8 on: out
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleCommand >> on: input [
 	arguments := Array with: input trimBoth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommand >> result [
 	^ result
 ]

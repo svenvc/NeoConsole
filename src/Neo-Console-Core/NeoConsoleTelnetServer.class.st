@@ -14,8 +14,8 @@ End with quit or an empty line.
 Security warning: this service opens up your image for access to those with access to your local network (i.e. those logged in to your machine), without any further authenication, allowing them to do absolutely anything. Think and make sure that you know what you are doing.
 "
 Class {
-	#name : #NeoConsoleTelnetServer,
-	#superclass : #Object,
+	#name : 'NeoConsoleTelnetServer',
+	#superclass : 'Object',
 	#instVars : [
 		'port',
 		'process',
@@ -24,27 +24,28 @@ Class {
 	#classVars : [
 		'ManagedServers'
 	],
-	#category : #'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 NeoConsoleTelnetServer class >> initialize [
 	SessionManager default registerNetworkClassNamed: self name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServer class >> managedServers [
 	^ ManagedServers ifNil: [ ManagedServers := IdentitySet new ]
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeoConsoleTelnetServer class >> register: server [
 	"Arrange for server to be sent start/stop on system startUp/shutDown"
 	
 	self managedServers add: server
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeoConsoleTelnetServer class >> shutDown: quiting [
 	"Our system shutDown hook: stop all servers we manage"
 	
@@ -53,7 +54,7 @@ NeoConsoleTelnetServer class >> shutDown: quiting [
 			self managedServers do: [ :each | each stop: false ] ]
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleTelnetServer class >> startOn: port [
 	"self startOn: 4999"
 	
@@ -62,7 +63,7 @@ NeoConsoleTelnetServer class >> startOn: port [
 		start
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeoConsoleTelnetServer class >> startUp: resuming [
 	"Our system startUp hook: start all servers we manage.
 	We do this using deferred startup actions to allow normal error handling."
@@ -73,14 +74,14 @@ NeoConsoleTelnetServer class >> startUp: resuming [
 				self managedServers do: [ :each | each start ] ] ]
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeoConsoleTelnetServer class >> unregister: server [
 	"No longer send server start/stop on system startUp/shutDown"
 	
 	self managedServers remove: server ifAbsent: [ ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleTelnetServer >> executeRequestResponseLoopOn: stream [
 	| in out command executeResult |
 	in := ZnCharacterReadStream on: stream.
@@ -96,7 +97,7 @@ NeoConsoleTelnetServer >> executeRequestResponseLoopOn: stream [
 		executeResult notNil ] whileTrue
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleTelnetServer >> initializeServerSocket [
 	serverSocket := Socket newTCP.
 	serverSocket setOption: 'TCP_NODELAY' value: 1.
@@ -108,14 +109,14 @@ NeoConsoleTelnetServer >> initializeServerSocket [
 		ifFalse: [ self error: 'Cannot create socket on port ' , self port printString ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleTelnetServer >> isRunning [
 	"Return true when I am running"
 	
 	^ process notNil and: [ serverSocket notNil ]
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleTelnetServer >> listenLoop [
 	"We create a listening Socket, then wait for a connection.
 	After each connection we also check that the listening Socket is still valid 
@@ -132,17 +133,17 @@ NeoConsoleTelnetServer >> listenLoop [
 		ifCurtailed: [ self releaseServerSocket ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServer >> port [
 	^ port ifNil: [ port := 4999 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServer >> port: integer [
 	port := integer
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeoConsoleTelnetServer >> printOn: stream [
 	super printOn: stream.
 	stream << $(.
@@ -150,7 +151,7 @@ NeoConsoleTelnetServer >> printOn: stream [
 	stream << $)
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleTelnetServer >> readInputFrom: stream [
 	| input lineReader line commandClass |
 	lineReader := ZnFastLineReader on: stream.
@@ -168,14 +169,14 @@ NeoConsoleTelnetServer >> readInputFrom: stream [
 	^ commandClass new on: input contents; yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleTelnetServer >> releaseServerSocket [
 	(Delay forMilliseconds: 10) wait.
 	serverSocket destroy.
 	serverSocket := nil
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleTelnetServer >> serveConnectionsOn: listeningSocket [
 	"We wait up to acceptWaitTimeout seconds for an incoming connection.
 	If we get one we wrap it in a SocketStream and #executeRequestResponseLoopOn: on it"
@@ -191,12 +192,12 @@ NeoConsoleTelnetServer >> serveConnectionsOn: listeningSocket [
 				named: self workerProcessName 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServer >> serverProcessName [
 	^ self class name asString , ' port ' , self port asString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleTelnetServer >> socketStreamOn: socket [
 	^ (ZdcSocketStream on: socket)
 		binary;
@@ -206,7 +207,7 @@ NeoConsoleTelnetServer >> socketStreamOn: socket [
 		yourself
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleTelnetServer >> start [
 	self stop.
 	self class register: self.
@@ -217,12 +218,12 @@ NeoConsoleTelnetServer >> start [
 		named: self serverProcessName
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleTelnetServer >> stop [
 	self stop: true
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleTelnetServer >> stop: unregister [
 	unregister ifTrue: [ self class unregister: self ].
 	self isRunning ifFalse: [ ^ self ].
@@ -231,17 +232,17 @@ NeoConsoleTelnetServer >> stop: unregister [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServer >> timeout [
 	^ 60
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServer >> workerProcessName [
 	^ self serverProcessName, ' Connection Handler'
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleTelnetServer >> writeOutput: string to: stream [
 	string isEmptyOrNil
 		ifTrue: [ ^ self ].

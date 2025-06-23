@@ -22,17 +22,18 @@ show Character class>>#euro
 
 "
 Class {
-	#name : #NeoConsoleShowCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleShowCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleShowCommand class >> prefix [
 	^ 'show'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleShowCommand >> execute [
 	self hasArguments 
 		ifTrue: [ | thing |
@@ -49,7 +50,7 @@ NeoConsoleShowCommand >> execute [
 			result := self class comment ]
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleShowCommand >> on: input [
 	super on: input.
 	(self argument beginsWith: self class prefix)

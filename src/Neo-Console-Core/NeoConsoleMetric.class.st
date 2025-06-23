@@ -4,8 +4,8 @@ I am NeoConsoleMetric. I represent a named metric with a description. I evaluate
 My class side holds a list of #knownMetrics.
 "
 Class {
-	#name : #NeoConsoleMetric,
-	#superclass : #Object,
+	#name : 'NeoConsoleMetric',
+	#superclass : 'Object',
 	#instVars : [
 		'name',
 		'description',
@@ -14,22 +14,23 @@ Class {
 	#classVars : [
 		'KnownMetrics'
 	],
-	#category : 'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric class >> add: metric [
 	^ self knownMetrics 
 		removeAllSuchThat: [ :each | each name = metric name ]; 
 		add: metric
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric class >> addNamed: metricName description: description reader: valueable [
 	^ self add: (self named: metricName description: description reader: valueable)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initialize [
 	"self initialize"
 	
@@ -39,14 +40,8 @@ NeoConsoleMetric class >> initialize [
 	"last update: 2015-08-17"
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initializeChronologyMetrics [
-	self addNamed: 'system.uptime' 
-		description: 'Image uptime human readeable' 
-		reader: [ (self sessionAge roundTo: 1 minute) humanReadablePrintString ].	
-	self addNamed: 'system.uptimeseconds' 
-		description: 'Image uptime seconds' 
-		reader: [ self sessionAge asSeconds ].	
 	self addNamed: 'system.date' 
 		description: 'Current date' 
 		reader: [ Date today printString ].
@@ -58,7 +53,7 @@ NeoConsoleMetric class >> initializeChronologyMetrics [
 		reader: [ DateAndTime now printString ].
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initializeMemoryMetrics [
 	self addNamed: 'memory.total' 
 		description: 'Total allocated memory' 
@@ -71,7 +66,7 @@ NeoConsoleMetric class >> initializeMemoryMetrics [
 		reader: [ Smalltalk garbageCollect. self memoryFree ].
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initializeMetrics [
 	self initializeSystemStatusMetric.
 	self initializeMemoryMetrics.
@@ -80,7 +75,7 @@ NeoConsoleMetric class >> initializeMetrics [
 	self initializeVersionMetrics.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initializeProcessMetrics [
 	self addNamed: 'process.count' 
 		description: 'Current process count' 
@@ -90,7 +85,7 @@ NeoConsoleMetric class >> initializeProcessMetrics [
 		reader: [ String cr join: ((Process allSubInstances reject: #isTerminated) collect: #name as: Array) ].
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initializeSystemStatusMetric [
 	self addNamed: 'system.status' 
 		description: 'Simple system status' 
@@ -101,44 +96,49 @@ NeoConsoleMetric class >> initializeSystemStatusMetric [
 				(self memoryFree / self memoryTotal * 100.0) printShowingDecimalPlaces: 2 } ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleMetric class >> initializeVersionMetrics [
-	self addNamed: 'system.version' 
-		description: 'Image version info' 
+
+	self
+		addNamed: 'system.version'
+		description: 'Image version info'
 		reader: [ SystemVersion current ].
-	self addNamed: 'system.mcversions' 
-		description: 'Monticello packages version info' 
-		reader: [ String cr join: (MCWorkingCopy allManagers collect: #description) sorted ].
+	self
+		addNamed: 'system.mcversions'
+		description: 'Monticello packages version info'
+		reader: [
+			String cr join:
+				(MCWorkingCopy allWorkingCopies collect: #description) sorted ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric class >> knownMetrics [
 	^ KnownMetrics ifNil: [ KnownMetrics := OrderedCollection new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric class >> matching: pattern [
 	| patternToSearchFor |
 	patternToSearchFor := (pattern includes: $*) ifTrue: [ pattern ] ifFalse: [ '*' , pattern , '*' ]. 
 	^ self knownMetrics select: [ :each | patternToSearchFor match: each name ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleMetric class >> memoryFree [
 	^ Smalltalk vm freeOldSpaceSize + Smalltalk vm edenSpaceSize - Smalltalk vm youngSpaceSize
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleMetric class >> memoryTotal [
 	^ Smalltalk vm memorySize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric class >> named: metricName [
 	^ self knownMetrics detect: [ :each | each name = metricName ] ifNone: [ NotFound signalFor: metricName ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NeoConsoleMetric class >> named: metricName description: description reader: valueable [
 	^ self new
 		name: metricName;
@@ -147,14 +147,7 @@ NeoConsoleMetric class >> named: metricName description: description reader: val
 		yourself
 ]
 
-{ #category : #private }
-NeoConsoleMetric class >> sessionAge [
-	^ (Smalltalk includesKey: #Session)
-		ifTrue: [ (Smalltalk at: #Session) current age ]
-		ifFalse: [ DateAndTime now - (Smalltalk at: #SessionManager) default currentSession creationTime ]
-]
-
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 NeoConsoleMetric class >> startUp [
 	"This message is sent to registered classes when the system is coming up."
 	
@@ -162,43 +155,43 @@ NeoConsoleMetric class >> startUp [
  
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> description [
 	^ description
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> description: string [
 	description := string
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> name [
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> name: string [
 	name := string
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeoConsoleMetric >> printOn: stream [
 	super printOn: stream.
 	stream nextPut: $(; << name; nextPut: $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> reader [
 	^ reader
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> reader: aValuable [
 	reader := aValuable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleMetric >> value [
 	^ reader value
 ]

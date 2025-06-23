@@ -18,22 +18,23 @@ describe
 
 "
 Class {
-	#name : #NeoConsoleDescribeCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleDescribeCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleDescribeCommand class >> handlesLine: line [
 	^ line first = $= or: [ super handlesLine: line ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleDescribeCommand class >> prefix [
 	^ 'describe'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleDescribeCommand >> execute [
 	| object |
 	object := NeoConsole last.
@@ -55,14 +56,14 @@ NeoConsoleDescribeCommand >> execute [
 						out print: index; << ': '; << (self printLimited: [ object at: index ]); cr ] ] ] ]
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleDescribeCommand >> on: input [
 	super on: input.
 	arguments := self argument findTokens: Character separators.
 	arguments := arguments allButFirst 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleDescribeCommand >> printLimited: valuable [ 
 	^ [ valuable value printStringLimitedTo: 64 ] on: Error do: [ '<error while printing>' ]
 ]
