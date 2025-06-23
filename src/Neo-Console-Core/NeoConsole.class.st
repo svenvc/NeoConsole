@@ -8,38 +8,39 @@ I hold the last 3 results.
 I offer quick access to NeoConsoleEnvironment current and NeoConsoleStdio run.
 "
 Class {
-	#name : #NeoConsole,
-	#superclass : #Object,
+	#name : 'NeoConsole',
+	#superclass : 'Object',
 	#classVars : [
 		'History',
 		'Results'
 	],
-	#category : #'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> clearResults [
 	^ self results 
 		atAllPut: nil; 
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> env [
 	^ NeoConsoleEnvironment current
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> history [
 	^ History ifNil: [ History := OrderedCollection new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> last [
 	^ self results last
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> lastResult: anObject [
 	| results |
 	results := self results.
@@ -50,22 +51,22 @@ NeoConsole class >> lastResult: anObject [
 	^ results
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> repl [
 	^ NeoConsoleStdio run
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsole class >> results [
 	^ Results ifNil: [ Results := Array new: 3 ]
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 NeoConsole class >> startServer [
 	^ NeoConsoleTelnetServer new start
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 NeoConsole class >> startServerOn: port [
 	^ NeoConsoleTelnetServer startOn: port
 ]

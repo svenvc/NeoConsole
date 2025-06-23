@@ -7,22 +7,23 @@ quit - Quit the REPL
 
 "
 Class {
-	#name : #NeoConsoleQuitCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleQuitCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleQuitCommand class >> handlesLine: line [
 	^ line first = Character end "Ctrl-D" or: [ super handlesLine: line ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleQuitCommand class >> prefix [
 	^ 'quit'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleQuitCommand >> execute [
 	result := 'Bye!'.
 	^ nil

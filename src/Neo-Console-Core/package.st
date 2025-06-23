@@ -1,1 +1,1 @@
-Package { #name : #'Neo-Console-Core' }
+Package { #name : 'Neo-Console-Core' }

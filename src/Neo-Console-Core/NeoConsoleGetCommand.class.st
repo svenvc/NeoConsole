@@ -23,17 +23,18 @@ get status
 - list all metrics containing 'status'
 "
 Class {
-	#name : #NeoConsoleGetCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleGetCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleGetCommand class >> prefix [
 	^ 'get'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleGetCommand >> execute [
 	self hasArguments 
 		ifTrue: [ 
@@ -52,14 +53,14 @@ NeoConsoleGetCommand >> execute [
 				self renderMetrics: NeoConsoleMetric knownMetrics on: out ] ]
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleGetCommand >> on: input [
 	super on: input.
 	arguments := self argument findTokens: Character separators.
 	arguments := arguments allButFirst 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleGetCommand >> renderMetrics: metrics on: out [
 	(metrics sorted: #name ascending)
 		do: [ :each | out space; space; << each name; << ' - '; << each description ] 

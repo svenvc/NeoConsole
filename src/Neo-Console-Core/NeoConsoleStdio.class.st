@@ -6,12 +6,13 @@ NeoConsoleStdio offers a command line interface to a Pharo image over Stdio.
 End with quit or an empty line.
 "
 Class {
-	#name : #NeoConsoleStdio,
-	#superclass : #Object,
-	#category : #'Neo-Console-Core'
+	#name : 'NeoConsoleStdio',
+	#superclass : 'Object',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 NeoConsoleStdio class >> nextLineFrom: stdin [
 	"Read a CR, LF or CRLF terminated line from stdin, 
 	returning the contents of the line without the EOL. 
@@ -39,12 +40,12 @@ NeoConsoleStdio class >> nextLineFrom: stdin [
 
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleStdio class >> run [
 	^ self new run
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleStdio >> executeRequestResponseLoop [
 	| in out command executeResult |
 	in := Stdio stdin.
@@ -60,12 +61,12 @@ NeoConsoleStdio >> executeRequestResponseLoop [
 		executeResult notNil ] whileTrue
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 NeoConsoleStdio >> printOn: stream [
 	stream nextPutAll: self class name
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleStdio >> readInputFrom: stdin [
 	| input line commandClass |
 	line := (self class nextLineFrom: stdin) trimBoth.
@@ -82,13 +83,13 @@ NeoConsoleStdio >> readInputFrom: stdin [
 	^ commandClass new on: input contents; yourself
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleStdio >> run [
 	self executeRequestResponseLoop 
 
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 NeoConsoleStdio >> writeOutput: string to: stream [
 	string isEmptyOrNil
 		ifTrue: [ ^ self ].

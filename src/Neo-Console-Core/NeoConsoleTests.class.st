@@ -2,12 +2,13 @@
 I am NeoConsoleTests, containing some functional tests for NeoConsole.
 "
 Class {
-	#name : #NeoConsoleTests,
-	#superclass : #TestCase,
-	#category : #'Neo-Console-Core'
+	#name : 'NeoConsoleTests',
+	#superclass : 'TestCase',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 NeoConsoleTests >> testEnvironment [
 	NeoConsole env at: #SECRET ifPresent: [ self fail ].
 	NeoConsole env at: #SECRET put: 42 asWords.
@@ -17,13 +18,13 @@ NeoConsoleTests >> testEnvironment [
 	self deny: (NeoConsole env includesKey: #SECRET).
 	
 	NeoConsole env loadOSEnvironment.
-	self assert: (NeoConsole env includesKey: #PATH).
+	self assert: ((NeoConsole env includesKey: #PATH) or: (NeoConsole env includesKey: #Path)).
 	
 
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 NeoConsoleTests >> testMetrics [
 	NeoConsoleMetric knownMetrics do: [ :each |
 		self deny: each value isNil.

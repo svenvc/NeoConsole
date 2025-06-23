@@ -23,22 +23,23 @@ example1
 
 "
 Class {
-	#name : #NeoConsoleAddCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleAddCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleAddCommand class >> isSingleLine [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleAddCommand class >> prefix [
 	^ 'add'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleAddCommand >> execute [
 	| lines targetClass source |
 	(lines := self argument lines) ifEmpty: [ ^ result := self class comment ].
@@ -58,7 +59,7 @@ NeoConsoleAddCommand >> execute [
 				do: [ :exception | self logException: exception on: out ] ]
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleAddCommand >> on: input [
 	super on: input.
 	(self argument beginsWith: self class prefix)
