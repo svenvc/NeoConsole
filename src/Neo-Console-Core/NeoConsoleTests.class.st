@@ -18,7 +18,7 @@ NeoConsoleTests >> testEnvironment [
 	self deny: (NeoConsole env includesKey: #SECRET).
 	
 	NeoConsole env loadOSEnvironment.
-	self assert: (NeoConsole env includesKey: #PATH).
+	self assert: ((NeoConsole env includesKey: #PATH) or: [ NeoConsole env includesKey: #Path ]).
 	
 
 	
