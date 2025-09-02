@@ -18,22 +18,23 @@ eval 1+2
 - evaluate the multi line expression, doubling the numbers 1 to 10 in a collection
 "
 Class {
-	#name : #NeoConsoleEvalCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleEvalCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleEvalCommand class >> isSingleLine [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEvalCommand class >> prefix [
 	^ 'eval'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleEvalCommand >> execute [
 	result := String 
 		streamContents: [ :out | 
@@ -50,14 +51,14 @@ NeoConsoleEvalCommand >> execute [
 		ifFalse: [ result := result , ' ... (truncated) ...' ]
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleEvalCommand >> on: input [
 	super on: input.
 	(self argument beginsWith: self class prefix)
 		ifTrue: [ arguments := Array with: (self argument allButFirst: self class prefix size) trimBoth ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEvalCommand >> outputLimit [
 	^ 16384
 ]

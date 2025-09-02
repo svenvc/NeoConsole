@@ -11,22 +11,23 @@ history last - execute the last input again
 history ! - execute the last input again
 "
 Class {
-	#name : #NeoConsoleHistoryCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : 'Neo-Console-Core'
+	#name : 'NeoConsoleHistoryCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleHistoryCommand class >> handlesLine: line [
 	^ line first = $! or: [ super handlesLine: line ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleHistoryCommand class >> prefix [
 	^ 'history'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleHistoryCommand >> execute [
 	self hasArguments
 		ifTrue: [
@@ -41,7 +42,7 @@ NeoConsoleHistoryCommand >> execute [
 		ifFalse: [ self historySummary ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleHistoryCommand >> executeHistoryAt: index [
 	| input evalCommand |
 	[ 
@@ -53,7 +54,7 @@ NeoConsoleHistoryCommand >> executeHistoryAt: index [
 		do: [ result := 'no history item @ ' , index asString ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleHistoryCommand >> executeHistoryLast [
 	| size |
 	size := NeoConsole history size.
@@ -62,20 +63,20 @@ NeoConsoleHistoryCommand >> executeHistoryLast [
 		ifFalse: [ self executeHistoryAt: size ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleHistoryCommand >> history [
 	result := String streamContents: [ :out |
 		1 to: NeoConsole history size do: [ :each |
 			out print: each; << ': '; << (NeoConsole history at: each); cr ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleHistoryCommand >> historyClear [
 	NeoConsole history removeAll.
 	result := 'history cleared'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 NeoConsoleHistoryCommand >> historySummary [
 	result := String streamContents: [ :out | | size |
 		size := NeoConsole history size.
@@ -83,12 +84,12 @@ NeoConsoleHistoryCommand >> historySummary [
 			out print: each; << ': '; << (NeoConsole history at: each); cr ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleHistoryCommand >> historySummarySize [
 	^ 10
 ]
 
-{ #category : #'initialization-release' }
+{ #category : 'initialization-release' }
 NeoConsoleHistoryCommand >> on: input [
 	super on: input.
 	self argument first = $!

@@ -4,17 +4,18 @@ Save the image
 save - save the image and quit the REPL
 "
 Class {
-	#name : #NeoConsoleSaveCommand,
-	#superclass : #NeoConsoleCommand,
-	#category : #'Neo-Console-Core'
+	#name : 'NeoConsoleSaveCommand',
+	#superclass : 'NeoConsoleCommand',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleSaveCommand class >> prefix [
 	^ 'save'
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 NeoConsoleSaveCommand >> execute [
 	| resuming |
 	resuming := Smalltalk snapshot: true andQuit: false.

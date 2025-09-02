@@ -19,28 +19,29 @@ Keys are stored as symbols.
 
 "
 Class {
-	#name : #NeoConsoleEnvironment,
-	#superclass : #Object,
+	#name : 'NeoConsoleEnvironment',
+	#superclass : 'Object',
 	#instVars : [
 		'environment'
 	],
 	#classVars : [
 		'UniqueInstance'
 	],
-	#category : 'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment class >> current [
 	^ UniqueInstance ifNil: [ UniqueInstance := self new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment class >> default [
 	^ self current
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> at: key [
 	"Return my value for key.
 	Signal NotFound if I do not know key."
@@ -48,7 +49,7 @@ NeoConsoleEnvironment >> at: key [
 	^ environment at: key
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> at: key ifAbsent: block [
 	"Return my value for key.
 	Return the value of evaluating block in case I do not know key."
@@ -56,7 +57,7 @@ NeoConsoleEnvironment >> at: key ifAbsent: block [
 	^ environment at: key ifAbsent: block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> at: key ifAbsentPut: block [
 	"Return my value for key.
 	Store and return the value of evaluating block in case I do not know key."
@@ -64,7 +65,7 @@ NeoConsoleEnvironment >> at: key ifAbsentPut: block [
 	^ environment at: key ifAbsentPut: block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> at: key ifPresent: block [
 	"Return the value of evaluating block with my value for key.
 	Return self, in effect do nothing, in case I do not know key."
@@ -72,7 +73,7 @@ NeoConsoleEnvironment >> at: key ifPresent: block [
 	^ environment at: key ifPresent: block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> at: key put: value [
 	"I will store value for key.
 	Return value."
@@ -80,34 +81,34 @@ NeoConsoleEnvironment >> at: key put: value [
 	^ environment at: key asSymbol put: value
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleEnvironment >> includesKey: key [
 	^ environment includesKey: key
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleEnvironment >> initialize [
 	environment := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> keys [
 	^ environment keys
 ]
 
-{ #category : #enumeration }
+{ #category : 'enumeration' }
 NeoConsoleEnvironment >> keysAndValuesDo: block [
 	environment keysAndValuesDo: block
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NeoConsoleEnvironment >> loadOSEnvironment [
 	OSPlatform current environment 
 		keysAndValuesDo: [ :key :value | 
 			self at: key put: value ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleEnvironment >> removeKey: key [
 	"Remove any value I have stored under key.
 	Do not fail if key is not present."

@@ -27,22 +27,23 @@ Examples:
 
 "
 Class {
-	#name : #NeoConsoleCommandLineHandler,
-	#superclass : #CommandLineHandler,
-	#category : #'Neo-Console-Core'
+	#name : 'NeoConsoleCommandLineHandler',
+	#superclass : 'CommandLineHandler',
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommandLineHandler class >> commandName [
 	^ 'NeoConsole'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleCommandLineHandler class >> description [
 	^ 'Invoke/start NeoConsole functionality like the repl (read-eval-print-loop)'
 ]
 
-{ #category : #activation }
+{ #category : 'activation' }
 NeoConsoleCommandLineHandler >> activate [
 	self activateHelpWithoutArguments
 		ifTrue: [ ^ self ].
@@ -55,7 +56,7 @@ NeoConsoleCommandLineHandler >> activate [
 	self exitFailure: 'Unknown subcommand: ' , self arguments first
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 NeoConsoleCommandLineHandler >> get [
 	self arguments size = 1
 		ifTrue: [
@@ -72,13 +73,13 @@ NeoConsoleCommandLineHandler >> get [
 					do: [ self exitFailure: 'unknown metric: ' , self arguments second ] ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 NeoConsoleCommandLineHandler >> repl [
 	NeoConsole repl.
 	self exitSuccess
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 NeoConsoleCommandLineHandler >> server [
 	self stdout
 		nextPutAll: 'Started';

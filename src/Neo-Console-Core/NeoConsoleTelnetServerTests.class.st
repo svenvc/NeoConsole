@@ -2,32 +2,33 @@
 I am NeoConsoleTelnetServerTests, holding functional unit tests for NeoConsoleTelnetServer
 "
 Class {
-	#name : #NeoConsoleTelnetServerTests,
-	#superclass : #TestCase,
+	#name : 'NeoConsoleTelnetServerTests',
+	#superclass : 'TestCase',
 	#instVars : [
 		'server'
 	],
-	#category : #'Neo-Console-Core'
+	#category : 'Neo-Console-Core',
+	#package : 'Neo-Console-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NeoConsoleTelnetServerTests >> localhost [
 	^ #[127 0 0 1] asSocketAddress
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 NeoConsoleTelnetServerTests >> setUp [ 
 	super setUp.
 	server := NeoConsoleTelnetServer new start
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 NeoConsoleTelnetServerTests >> tearDown [
 	server stop.
 	super tearDown 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleTelnetServerTests >> testConnect [
 	| connection in out line |
 	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
@@ -43,7 +44,7 @@ NeoConsoleTelnetServerTests >> testConnect [
 	connection close
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleTelnetServerTests >> testEvalSum [
 	| connection in out line x y |
 	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
@@ -62,7 +63,7 @@ NeoConsoleTelnetServerTests >> testEvalSum [
 	connection close
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleTelnetServerTests >> testGetSystemTimestamp [
 	| connection in out line |
 	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
@@ -77,7 +78,7 @@ NeoConsoleTelnetServerTests >> testGetSystemTimestamp [
 	connection close
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 NeoConsoleTelnetServerTests >> testSumMultiline [
 	| connection in out line x y |
 	connection := ZdcSocketStream openConnectionToHost: self localhost port: server port timeout: 10.
