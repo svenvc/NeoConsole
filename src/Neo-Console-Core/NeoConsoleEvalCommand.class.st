@@ -44,7 +44,7 @@ NeoConsoleEvalCommand >> execute [
 				evaluationResult := compiler evaluate: self argument.
 				NeoConsole lastResult: evaluationResult. 
 				out print: evaluationResult ]
-					on: Error , SyntaxErrorNotification 
+					on: Error , Notification 
 					do: [ :exception | self logException: exception on: out ] ]
 		limitedTo: self outputLimit.
 	result size < self outputLimit 
