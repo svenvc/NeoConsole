@@ -30,14 +30,14 @@ NeoConsoleMetric class >> addNamed: metricName description: description reader: 
 	^ self add: (self named: metricName description: description reader: valueable)
 ]
 
-{ #category : 'initialization' }
+{ #category : 'class initialization' }
 NeoConsoleMetric class >> initialize [
 	"self initialize"
 	
 	KnownMetrics := nil.
 	self initializeMetrics.
 	
-	"last update: 2015-08-17"
+	"last update: 2025-09-02"
 ]
 
 { #category : 'initialization' }
