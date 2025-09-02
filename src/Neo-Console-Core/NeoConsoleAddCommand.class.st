@@ -55,7 +55,7 @@ NeoConsoleAddCommand >> execute [
 			compileResult := targetClass compile: source.
 			NeoConsole lastResult: compileResult.
 			out print: compileResult ]
-				on: Error , SyntaxErrorNotification
+				on: Error , Notification
 				do: [ :exception | self logException: exception on: out ] ]
 ]
 
