@@ -41,11 +41,13 @@ NeoConsoleMetric class >> imageBootTime [
 { #category : 'class initialization' }
 NeoConsoleMetric class >> initialize [
 	"self initialize"
-	
+
 	KnownMetrics := nil.
 	self initializeMetrics.
-	
-	"last update: 2025-09-02"
+
+	ImageBootTime := DateAndTime now.
+
+	"last update: 2025-09-09"
 ]
 
 { #category : 'initialization' }
