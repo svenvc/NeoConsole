@@ -12,6 +12,7 @@ Class {
 		'reader'
 	],
 	#classVars : [
+		'ImageBootTime',
 		'KnownMetrics'
 	],
 	#category : 'Neo-Console-Core',
@@ -28,6 +29,13 @@ NeoConsoleMetric class >> add: metric [
 { #category : 'accessing' }
 NeoConsoleMetric class >> addNamed: metricName description: description reader: valueable [
 	^ self add: (self named: metricName description: description reader: valueable)
+]
+
+{ #category : 'accessing' }
+NeoConsoleMetric class >> imageBootTime [
+	^ ImageBootTime ifNil: [
+			"Subtract the number of ms we are already up"
+			ImageBootTime := DateAndTime now - Time millisecondClockValue milliSeconds ]
 ]
 
 { #category : 'class initialization' }
@@ -147,7 +155,7 @@ NeoConsoleMetric class >> named: metricName description: description reader: val
 
 { #category : 'private' }
 NeoConsoleMetric class >> sessionAge [
-	^ Time millisecondClockValue milliSeconds
+	^ DateAndTime now - self imageBootTime
 ]
 
 { #category : 'system startup' }

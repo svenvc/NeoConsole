@@ -31,3 +31,17 @@ NeoConsoleTests >> testMetrics [
 		self deny: each name isEmptyOrNil.
 		self deny: each description isEmptyOrNil ]
 ]
+
+{ #category : 'tests' }
+NeoConsoleTests >> testUptime [
+	| uptime uptime1 uptime2 |
+	uptime := (NeoConsoleMetric named: 'system.uptime') value.
+	self assert: uptime isString.
+	self deny: uptime isEmpty .
+	uptime1 := (NeoConsoleMetric named: 'system.uptimeseconds') value.
+	self assert: uptime1 isInteger.
+	self assert: uptime1 > 1.
+	1 second wait.
+	uptime2 := (NeoConsoleMetric named: 'system.uptimeseconds') value.
+	self assert: uptime2 > uptime1 
+]
