@@ -33,21 +33,18 @@ NeoConsoleMetric class >> addNamed: metricName description: description reader: 
 
 { #category : 'accessing' }
 NeoConsoleMetric class >> imageBootTime [
-	^ ImageBootTime ifNil: [
-			"Subtract the number of ms we are already up"
-			ImageBootTime := DateAndTime now - Time millisecondClockValue milliSeconds ]
+	^ ImageBootTime ifNil: [ self setImageBootTime ]
 ]
 
 { #category : 'class initialization' }
 NeoConsoleMetric class >> initialize [
 	"self initialize"
-
-	KnownMetrics := nil.
-	self initializeMetrics.
-
-	ImageBootTime := DateAndTime now.
-
-	"last update: 2025-09-09"
+	
+	self resetMetrics.
+	self setImageBootTime.
+	self registerForStartUp.
+	
+	"last update: 2025-09-12"
 ]
 
 { #category : 'initialization' }
@@ -155,9 +152,29 @@ NeoConsoleMetric class >> named: metricName description: description reader: val
 		yourself
 ]
 
+{ #category : 'initialization' }
+NeoConsoleMetric class >> registerForStartUp [
+	self environment
+		at: #SessionManager
+		ifPresent: [ :manager | manager default registerNetworkClassNamed: self name ]
+		ifAbsent: [ Smalltalk addToStartUpList: self; addToShutDownList: self ]
+]
+
+{ #category : 'initialization' }
+NeoConsoleMetric class >> resetMetrics [
+	KnownMetrics := nil.
+	self initializeMetrics
+]
+
 { #category : 'private' }
 NeoConsoleMetric class >> sessionAge [
 	^ DateAndTime now - self imageBootTime
+]
+
+{ #category : 'initialization' }
+NeoConsoleMetric class >> setImageBootTime [
+	"Subtract the number of ms we are already up"
+	ImageBootTime := DateAndTime now - Time millisecondClockValue milliSeconds
 ]
 
 { #category : 'system startup' }
